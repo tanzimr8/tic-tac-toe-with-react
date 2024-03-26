@@ -18,9 +18,11 @@ const Square = ({ value, onClick }) => {
   return <button onClick={onClick} className='square'>{value}</button>
 }
 const TicTacToe = () => {
+  //Declaring states
   const [squares, setSquares] = useState(Array(9).fill(''));
   const [isXTurn, setIsXTurn] = useState(true);
   const [status,setStatus] = useState('');
+  //What happens after clicking on the suqare
   const handleClick = (getCurrentSquare) => {
     const copyOfSquares = [...squares];
     if(getWinner(copyOfSquares) || copyOfSquares[getCurrentSquare]) {return}; 
@@ -28,6 +30,7 @@ const TicTacToe = () => {
     setIsXTurn(!isXTurn);
     setSquares(copyOfSquares);
   }
+  //How to get the winner
   const getWinner = (squares)=>{
     const wininigPattern = [
       [0,1,2],
@@ -48,11 +51,23 @@ const TicTacToe = () => {
   }
   return null;  
 }
-
+// Get the winner
   useEffect(()=>{
     getWinner(squares);
   },[squares,isXTurn]);
 
+// check the status
+useEffect(()=>{
+  if(!getWinner(squares) && squares.every(item => item !== '')){
+    setStatus('Draw! Please restart');
+  }
+  else if(getWinner(squares)){
+    setStatus(`Winner is - ${getWinner(squares)} ! Please Restart`)
+  }
+  else{
+    setStatus(`Next is ${isXTurn ? 'X' : 'O'}'s turn`);
+  }
+},[squares,isXTurn]);
   return (
     <div className="container">
       <div className='ttt-container'>
@@ -71,6 +86,8 @@ const TicTacToe = () => {
           <Square value={squares[7]} onClick={() => { handleClick(7) }} />
           <Square value={squares[8]} onClick={() => { handleClick(8) }} />
         </div>
+        <h2>{status}</h2>
+        <button onClick={handleRestart}>Restart</button>
       </div>
     </div>
   )
