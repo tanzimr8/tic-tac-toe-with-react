@@ -21,56 +21,64 @@ const TicTacToe = () => {
   //Declaring states
   const [squares, setSquares] = useState(Array(9).fill(''));
   const [isXTurn, setIsXTurn] = useState(true);
-  const [status,setStatus] = useState('');
+  const [status, setStatus] = useState('');
   //What happens after clicking on the suqare
   const handleClick = (getCurrentSquare) => {
     const copyOfSquares = [...squares];
-    if(getWinner(copyOfSquares) || copyOfSquares[getCurrentSquare]) {return}; 
+    if (getWinner(copyOfSquares) || copyOfSquares[getCurrentSquare]) { return };
     copyOfSquares[getCurrentSquare] = isXTurn ? 'X' : 'O';
     setIsXTurn(!isXTurn);
     setSquares(copyOfSquares);
   }
   //How to get the winner
-  const getWinner = (squares)=>{
+  const getWinner = (squares) => {
     const wininigPattern = [
-      [0,1,2],
-      [0,3,6],
-      [0,4,8],
-      [1,4,7],
-      [2,5,8],
-      [3,4,5],
-      [6,7,8],
-      [2,4,6],
+      [0, 1, 2],
+      [0, 3, 6],
+      [0, 4, 8],
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 4, 5],
+      [6, 7, 8],
+      [2, 4, 6],
     ];
-    for(let i=0;i<wininigPattern.length;i++){
-      const [x,y,z] = wininigPattern[i];
+    for (let i = 0; i < wininigPattern.length; i++) {
+      const [x, y, z] = wininigPattern[i];
 
-    if(squares[x] && squares[x] === squares[y] && squares[x] === squares[z]){
-      return squares[x];
+      if (squares[x] && squares[x] === squares[y] && squares[x] === squares[z]) {
+        return squares[x];
+      }
     }
+    return null;
   }
-  return null;  
-}
-// Get the winner
-  useEffect(()=>{
+  // Get the winner
+  useEffect(() => {
     getWinner(squares);
-  },[squares,isXTurn]);
+  }, [squares, isXTurn]);
 
-// check the status
-useEffect(()=>{
-  if(!getWinner(squares) && squares.every(item => item !== '')){
-    setStatus('Draw! Please restart');
+  // check the status
+  useEffect(() => {
+    if (!getWinner(squares) && squares.every(item => item !== '')) {
+      setStatus('Draw! Please restart');
+    }
+    else if (getWinner(squares)) {
+      setStatus(`Winner is - ${getWinner(squares)} ! Please Restart`)
+    }
+    else {
+      setStatus(`Next is ${isXTurn ? 'X' : 'O'}'s turn`);
+    }
+  }, [squares, isXTurn]);
+
+  //Restart the game
+  const handleRestart = () => {
+    setIsXTurn(true);
+    setSquares(Array(9).fill(''));
   }
-  else if(getWinner(squares)){
-    setStatus(`Winner is - ${getWinner(squares)} ! Please Restart`)
-  }
-  else{
-    setStatus(`Next is ${isXTurn ? 'X' : 'O'}'s turn`);
-  }
-},[squares,isXTurn]);
   return (
     <div className="container">
       <div className='ttt-container'>
+        <h1>Tic Tac Toe</h1>
+
         <div className="row">
           <Square value={squares[0]} onClick={() => { handleClick(0) }} />
           <Square value={squares[1]} onClick={() => { handleClick(1) }} />
