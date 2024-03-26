@@ -20,14 +20,15 @@ const Square = ({ value, onClick }) => {
 const TicTacToe = () => {
   const [squares, setSquares] = useState(Array(9).fill(''));
   const [isXTurn, setIsXTurn] = useState(true);
+  const [status,setStatus] = useState('');
   const handleClick = (getCurrentSquare) => {
     const copyOfSquares = [...squares];
-    if(copyOfSquares[getCurrentSquare]) return; 
+    if(getWinner(copyOfSquares) || copyOfSquares[getCurrentSquare]) {return}; 
     copyOfSquares[getCurrentSquare] = isXTurn ? 'X' : 'O';
     setIsXTurn(!isXTurn);
     setSquares(copyOfSquares);
   }
-  const getWinner = ()=>{
+  const getWinner = (squares)=>{
     const wininigPattern = [
       [0,1,2],
       [0,3,6],
@@ -39,17 +40,19 @@ const TicTacToe = () => {
       [2,4,6],
     ];
     for(let i=0;i<wininigPattern.length;i++){
-      const [a,b,c] = wininigPattern[i];
+      const [x,y,z] = wininigPattern[i];
+
+    if(squares[x] && squares[x] === squares[y] && squares[x] === squares[z]){
+      return squares[x];
     }
-    if(squares[a] === squares[b] && squares[a] === squares[c]){
-      return squares[a];
-    };
-    return null;
   }
+  return null;  
+}
+
   useEffect(()=>{
-    getWinner();
-  },[isXTurn,squares]);
-  // console.log(squares);
+    getWinner(squares);
+  },[squares,isXTurn]);
+
   return (
     <div className="container">
       <div className='ttt-container'>
