@@ -59,7 +59,7 @@ const TicTacToe = () => {
   // check the status
   useEffect(() => {
     if (!getWinner(squares) && squares.every(item => item !== '')) {
-      setStatus('Draw! Please restart');
+      setStatus('It is a Draw! Please restart');
     }
     else if (getWinner(squares)) {
       setStatus(`Winner is - ${getWinner(squares)} ! Please Restart`)
@@ -95,7 +95,7 @@ const TicTacToe = () => {
           <Square value={squares[8]} onClick={() => { handleClick(8) }} />
         </div>
         <h2>{status}</h2>
-        <button onClick={handleRestart}>Restart</button>
+        <button className='btn-restart' onClick={handleRestart}>Restart</button>
       </div>
     </div>
   )

@@ -12,7 +12,7 @@ body{
   width: 100%;
 }
 .ttt-container{
-
+  text-align: center;
 }
 .row{
   display: flex;
@@ -29,4 +29,29 @@ body{
   margin-left: -1px;
   margin-top: -1px;
   cursor: pointer;
+}
+h1{
+  font-size: 50px;
+}
+h2{
+  font-style: 40px;
+  text-transform: uppercase;
+}
+button{
+  background-color:rgb(199, 238, 225);
+  color: rgb(4, 75, 65);;
+}
+.btn-restart{
+  padding: 13px 30px;
+  background-color: rgb(18, 184, 161);
+  cursor: pointer;
+  color: #fff;
+  border: 1px solid rgb(18, 184, 161);
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.btn-restart:hover{
+  background-color:rgb(199, 238, 225);
+  color: #000;
 }
